@@ -10,6 +10,9 @@ namespace JsonSerializable {
 		public JsonString() : base() { }
 		public JsonString(string value) : base(value) { }
 
+		public static implicit operator string(JsonString data) => data.Value;
+		public static explicit operator JsonString(string data) => new JsonString(data);
+
 		public override bool LoadFromJson(JsonData Data) {
 			if (Data is JsonString) {
 				this.Value = ((JsonString)Data).Value;

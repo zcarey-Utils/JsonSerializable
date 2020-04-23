@@ -20,6 +20,9 @@ namespace JsonSerializable {
 			this.items = items;
 		}
 
+		public static implicit operator Dictionary<string, JsonData>(JsonObject data) => data.items;
+		public static explicit operator JsonObject(Dictionary<string, JsonData> data) => new JsonObject(data);
+
 		public void Add(string key, JsonData value) {
 			items[key] = value;
 		}

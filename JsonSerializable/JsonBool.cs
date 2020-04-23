@@ -10,6 +10,9 @@ namespace JsonSerializable {
 		public JsonBool() : base() { }
 		public JsonBool(bool value) : base(value) { }
 
+		public static implicit operator bool(JsonBool data) => data.Value;
+		public static explicit operator JsonBool(bool data) => new JsonBool(data);
+
 		public override bool LoadFromJson(JsonData Data) {
 			if (Data is JsonBool) {
 				this.Value = ((JsonBool)Data).Value;

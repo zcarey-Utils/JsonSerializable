@@ -10,6 +10,10 @@ namespace JsonSerializable {
 		public JsonInteger() : base() { }
 		public JsonInteger(long value) : base(value) { }
 
+		public static implicit operator long(JsonInteger data) => data.Value;
+		public static explicit operator JsonInteger(long data) => new JsonInteger(data);
+		public static explicit operator JsonInteger(ulong data) => new JsonInteger((long)data);
+
 		public override bool LoadFromJson(JsonData Data) {
 			if (Data is JsonInteger) {
 				this.Value = ((JsonInteger)Data).Value;

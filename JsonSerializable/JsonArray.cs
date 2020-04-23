@@ -23,6 +23,9 @@ namespace JsonSerializable {
 			Values = new List<JsonData>(values);
 		}
 
+		public static implicit operator List<JsonData>(JsonArray data) => data.Values;
+		public static explicit operator JsonArray(List<JsonData> data) => new JsonArray(data);
+
 		public override bool LoadFromJson(JsonData Data) {
 			if (Data is JsonArray) {
 				Values.Clear();

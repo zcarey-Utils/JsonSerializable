@@ -10,6 +10,10 @@ namespace JsonSerializable {
 		public JsonDecimal() : base() { }
 		public JsonDecimal(double value) : base(value) { }
 
+		public static implicit operator double(JsonDecimal data) => data.Value;
+		public static explicit operator JsonDecimal(double data) => new JsonDecimal(data);
+		public static explicit operator JsonDecimal(float data) => new JsonDecimal(data);
+
 		public override bool LoadFromJson(JsonData Data) {
 			if (Data is JsonDecimal) {
 				this.Value = ((JsonDecimal)Data).Value;
