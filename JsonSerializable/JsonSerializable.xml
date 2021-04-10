@@ -1,0 +1,624 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JsonSerializable</name>
+    </assembly>
+    <members>
+        <member name="T:JsonSerializable.IJsonSerializable">
+            <summary>
+            The interface that is used for any type that should be able to convert to <see cref="T:JsonSerializable.JsonData"/> to it can be save/load from a JSON file.
+            </summary>
+        </member>
+        <member name="M:JsonSerializable.IJsonSerializable.SaveToJson">
+            <summary>
+            Serialize the data to be saved to file.
+            This method is expected to throw an exception if the data is unable to be serialized.
+            </summary>
+            <returns>The serialized data to be written to file.</returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:JsonSerializable.IJsonSerializable.LoadFromJson(JsonSerializable.JsonData)">
+            <summary>
+            Deserialize the data read from a file.
+            This method is expected to throw an exception if the data is unable to be deserialized.
+            </summary>
+            <param name="Data">The data that needs to be deserialized.</param>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="T:JsonSerializable.SerializableList`1">
+            <summary>
+            A list that implements <see cref="T:JsonSerializable.IJsonSerializable"/> to be able to save/load from a JSON.
+            The element type must be an IJsonSerializable type.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:JsonSerializable.SerializableList`1.#ctor">
+            <summary>
+            Default empty constructor as required for JSON loading.
+            </summary>
+        </member>
+        <member name="M:JsonSerializable.SerializableList`1.#ctor(System.Collections.Generic.List{`0})">
+            <inheritdoc cref="M:System.Collections.Generic.List`1.#ctor(System.Collections.Generic.IEnumerable{`0})"/>
+        </member>
+        <member name="M:JsonSerializable.SerializableList`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <inheritdoc/>
+        </member>
+        <member name="M:JsonSerializable.SerializableList`1.LoadFromJson(JsonSerializable.JsonData)">
+            <inheritdoc/>
+        </member>
+        <member name="M:JsonSerializable.SerializableList`1.SaveToJson">
+            <inheritdoc/>
+        </member>
+        <member name="T:JsonSerializable.SerializableDictionary`1">
+            <summary>
+            A dictionary that implements <see cref="T:JsonSerializable.IJsonSerializable"/> to be able to save/load from a JSON.
+            The element type must be an IJsonSerializable type.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:JsonSerializable.SerializableDictionary`1.#ctor">
+            <summary>
+            Default constructor as required for loading IJsonSerializable.
+            </summary>
+        </member>
+        <member name="M:JsonSerializable.SerializableDictionary`1.#ctor(System.Collections.Generic.Dictionary{System.String,`0})">
+            <inheritdoc cref="M:System.Collections.Generic.Dictionary`2.#ctor(System.Collections.Generic.IDictionary{`0,`1})"/>
+        </member>
+        <member name="M:JsonSerializable.SerializableDictionary`1.LoadFromJson(JsonSerializable.JsonData)">
+            <inheritdoc/>
+        </member>
+        <member name="M:JsonSerializable.SerializableDictionary`1.SaveToJson">
+            <inheritdoc/>
+        </member>
+        <member name="T:JsonSerializable.Json">
+            <summary>
+            Handles the reading and writing of JSON files.
+            </summary>
+        </member>
+        <member name="M:JsonSerializable.Json.Write(JsonSerializable.IJsonSerializable,System.String)">
+            <summary>
+            Serializes and writes JSON data to a file.
+            </summary>
+            <param name="json">The JSON data to serialize and write to a file.</param>
+            <param name="path">The file path to write to.</param>
+            <exception cref="T:System.Runtime.Serialization.SerializationException">Thrown when serializing the data into JsonData fails.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="json"/> is null.</exception>
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.Json.Write(JsonSerializable.IJsonSerializable,System.IO.Stream)">
+            <summary>
+            Serializes and writes JSON data to a stream.
+            </summary>
+            <param name="json">The JSON data to serialize and write to a file.</param>
+            <param name="stream">The file path to write to.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="json"/> is null.</exception>
+            <exception cref="T:System.Runtime.Serialization.SerializationException">Thrown when serializing the data into JsonData fails.</exception>
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.Json.Write(JsonSerializable.JsonData,System.String)">
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.IO.IOException">Any error occurs while trying to write the file to the disk.</exception>
+        </member>
+        <member name="M:JsonSerializable.Json.Write(JsonSerializable.JsonData,System.IO.Stream)">
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.Json.Read(System.String,JsonSerializable.IJsonSerializable)">
+            <summary>
+            Reads JSON from a file and deserializes the data.
+            </summary>
+            <param name="path"></param>
+            <param name="json"></param>
+            <exception cref="T:System.Runtime.Serialization.SerializationException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:JsonSerializable.Json.Read(System.IO.Stream,JsonSerializable.IJsonSerializable)">
+            <summary>
+            Reads JSON from a stream and deserializes the data.
+            </summary>
+            <param name="stream"></param>
+            <param name="json"></param>
+            <exception cref="T:System.Runtime.Serialization.SerializationException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:JsonSerializable.Json.Read(System.String)">
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.Json.Read(System.IO.Stream)">
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.Json.ReadWhitespace(JsonSerializable.JsonReader)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="T:JsonSerializable.JsonArray">
+            <summary>
+            Essentially an array that can be saved/loaded to a JSON.
+            </summary>
+        </member>
+        <member name="M:JsonSerializable.JsonArray.#ctor">
+            <summary>
+            Default constructor as required to load from a JSON.
+            </summary>
+        </member>
+        <member name="M:JsonSerializable.JsonArray.#ctor(System.Collections.Generic.List{JsonSerializable.JsonData})">
+            <summary>
+            Copies values from given list.
+            </summary>
+            <param name="values"></param>
+        </member>
+        <member name="M:JsonSerializable.JsonArray.#ctor(JsonSerializable.JsonData[])">
+            <summary>
+            Copies values from given array.
+            </summary>
+            <param name="values"></param>
+        </member>
+        <member name="M:JsonSerializable.JsonArray.op_Implicit(JsonSerializable.JsonArray)~System.Collections.Generic.List{JsonSerializable.JsonData}">
+            <summary>
+            Convert JsonArray to <see cref="T:System.Collections.Generic.List`1"/> by returning its contained list.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JsonSerializable.JsonArray.op_Explicit(System.Collections.Generic.List{JsonSerializable.JsonData})~JsonSerializable.JsonArray">
+            <summary>
+            Converts a <see cref="T:System.Collections.Generic.List`1"/> to JsonArray by copying the items.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JsonSerializable.JsonArray.LoadFromJson(JsonSerializable.JsonData)">
+            <inheritdoc/>
+            <exception cref="T:System.InvalidCastException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonArray.Add(JsonSerializable.JsonData)">
+            <inheritdoc cref="M:System.Collections.Generic.List`1.Add(`0)"/>
+        </member>
+        <member name="M:JsonSerializable.JsonArray.GetEnumerator">
+            <inheritdoc cref="M:System.Collections.Generic.List`1.GetEnumerator"/>
+        </member>
+        <member name="M:JsonSerializable.JsonArray.Serialize(JsonSerializable.JsonWriter,System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:JsonSerializable.JsonArray.Parse(JsonSerializable.JsonReader)">
+            <inheritdoc/>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="T:JsonSerializable.JsonBool">
+            <summary>
+            JsonValue for the native type <see cref="T:System.Boolean"/>.
+            </summary>
+        </member>
+        <member name="M:JsonSerializable.JsonBool.#ctor">
+            <inheritdoc/>
+        </member>
+        <member name="M:JsonSerializable.JsonBool.#ctor(System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="M:JsonSerializable.JsonBool.op_Implicit(JsonSerializable.JsonBool)~System.Boolean">
+            <summary>
+            Converts the JsonValue to a bool by returning the contained value.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JsonSerializable.JsonBool.op_Explicit(System.Boolean)~JsonSerializable.JsonBool">
+            <summary>
+            Converts a bool to a JsonValue by creating a new JsonValue and setting it's value to the bool.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JsonSerializable.JsonBool.LoadFromJson(JsonSerializable.JsonData)">
+            <inheritdoc/>
+            <exception cref="T:System.InvalidCastException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonBool.Parse(JsonSerializable.JsonReader)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonBool.Serialize(JsonSerializable.JsonWriter,System.Int32)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="T:JsonSerializable.JsonData">
+            <summary>
+            The base type of all JsonData that can be written to or read from a JSON file.
+            </summary>
+        </member>
+        <member name="M:JsonSerializable.JsonData.Serialize(JsonSerializable.JsonWriter,System.Int32)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonData.Parse(JsonSerializable.JsonReader)">
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonData.SaveToJson">
+            <inheritdoc/>
+        </member>
+        <member name="M:JsonSerializable.JsonData.LoadFromJson(JsonSerializable.JsonData)">
+            <inheritdoc/>
+        </member>
+        <member name="M:JsonSerializable.JsonData.ParseValue(JsonSerializable.JsonReader)">
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonData.ParseNumber(JsonSerializable.JsonReader)">
+            <exception cref="T:System.IO.IOException"></exception>
+            /// <exception cref="T:System.FormatException"></exception>
+        </member>
+        <member name="T:JsonSerializable.JsonDecimal">
+            <summary>
+            JsonValue for the native type <see cref="T:System.Double"/>
+            </summary>
+        </member>
+        <member name="M:JsonSerializable.JsonDecimal.#ctor">
+            <inheritdoc/>
+        </member>
+        <member name="M:JsonSerializable.JsonDecimal.#ctor(System.Double)">
+            <inheritdoc/>
+        </member>
+        <member name="M:JsonSerializable.JsonDecimal.op_Implicit(JsonSerializable.JsonDecimal)~System.Double">
+            <summary>
+            Converts the JsonValue to a double by returning the contained value.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JsonSerializable.JsonDecimal.op_Explicit(System.Double)~JsonSerializable.JsonDecimal">
+            <summary>
+            Converts the double to a JsonValue by creating a new JsonValue and setting its value to the double.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JsonSerializable.JsonDecimal.op_Explicit(System.Single)~JsonSerializable.JsonDecimal">
+            <summary>
+            Converts the float to a JsonValue by creating a new JsonValue and setting its value to the float.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JsonSerializable.JsonDecimal.LoadFromJson(JsonSerializable.JsonData)">
+            <inheritdoc/>
+            <exception cref="T:System.InvalidCastException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonDecimal.Parse(JsonSerializable.JsonReader)">
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonDecimal.Serialize(JsonSerializable.JsonWriter,System.Int32)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="T:JsonSerializable.JsonInteger">
+            <summary>
+            JsonValue for the native type <see cref="T:System.Int64"/>.
+            </summary>
+        </member>
+        <member name="M:JsonSerializable.JsonInteger.#ctor">
+            <inheritdoc/>
+        </member>
+        <member name="M:JsonSerializable.JsonInteger.#ctor(System.Int64)">
+            <inheritdoc/>
+        </member>
+        <member name="M:JsonSerializable.JsonInteger.op_Implicit(JsonSerializable.JsonInteger)~System.Int64">
+            <summary>
+            Converts the JsonValue to a long by returning the contained value.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JsonSerializable.JsonInteger.op_Explicit(System.Int64)~JsonSerializable.JsonInteger">
+            <summary>
+            Converts a long to a JsonValue by creating a new JsonValue and setting its value to the long.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JsonSerializable.JsonInteger.op_Explicit(System.UInt64)~JsonSerializable.JsonInteger">
+            <summary>
+            Converts a ulong to a JsonValue by creating a new JsonValue and setting its value to the ulong.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JsonSerializable.JsonInteger.LoadFromJson(JsonSerializable.JsonData)">
+            <inheritdoc/>
+            <exception cref="T:System.InvalidCastException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonInteger.Parse(JsonSerializable.JsonReader)">
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonInteger.Serialize(JsonSerializable.JsonWriter,System.Int32)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="T:JsonSerializable.JsonNumber`1">
+            <summary>
+            JsonValue that holds native number types such as <see cref="T:System.Int64"/> or <see cref="T:System.Decimal"/>.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:JsonSerializable.JsonNumber`1.#ctor">
+            <summary>
+            Default constructor as required from <see cref="T:JsonSerializable.IJsonSerializable"/> for loading data from JSON
+            </summary>
+        </member>
+        <member name="M:JsonSerializable.JsonNumber`1.#ctor(`0)">
+            <summary>
+            Constructor to pass value to base class.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:JsonSerializable.JsonObject">
+            <summary>
+            Essentially a dictionary with string key that can saved/loaded from a JSON file as a Json Object
+            </summary>
+        </member>
+        <member name="P:JsonSerializable.JsonObject.Items">
+            <summary>
+            All KeyItemPairs of contained JsonData. 
+            </summary>
+        </member>
+        <member name="M:JsonSerializable.JsonObject.#ctor">
+            <summary>
+            Default constructor as required to load data from JSON
+            </summary>
+        </member>
+        <member name="M:JsonSerializable.JsonObject.#ctor(System.Collections.Generic.Dictionary{System.String,JsonSerializable.JsonData})">
+            <summary>
+            Initializes object with data from a dictionary.
+            </summary>
+            <param name="items"></param>
+        </member>
+        <member name="M:JsonSerializable.JsonObject.op_Implicit(JsonSerializable.JsonObject)~System.Collections.Generic.Dictionary{System.String,JsonSerializable.JsonData}">
+            <summary>
+            Converts from JsonObject to dictionary by returning it's contained dictionary.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JsonSerializable.JsonObject.op_Explicit(System.Collections.Generic.Dictionary{System.String,JsonSerializable.JsonData})~JsonSerializable.JsonObject">
+            <summary>
+            Converts dictionary to JsonObject by creating a new JsonObject and copying all the items from the dictionary.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JsonSerializable.JsonObject.Add(System.String,JsonSerializable.JsonData)">
+            <inheritdoc cref="M:System.Collections.Generic.Dictionary`2.Add(`0,`1)"/>
+        </member>
+        <member name="P:JsonSerializable.JsonObject.Item(System.String)">
+            <summary>
+            Sets or gets the value with the given key. If the key is not present in dictionary, null is returned.
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonObject.Serialize(JsonSerializable.JsonWriter,System.Int32)">
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonObject.Parse(JsonSerializable.JsonReader)">
+            <inheritdoc/>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonObject.LoadFromJson(JsonSerializable.JsonData)">
+            <inheritdoc/>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonReader.#ctor(System.IO.Stream)">
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonReader.ReadByte">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonReader.Read">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="T:JsonSerializable.JsonString">
+            <summary>
+            JsonValue for the native type <see cref="T:System.String"/>.
+            </summary>
+        </member>
+        <member name="M:JsonSerializable.JsonString.#ctor">
+            <inheritdoc/>
+        </member>
+        <member name="M:JsonSerializable.JsonString.#ctor(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:JsonSerializable.JsonString.op_Implicit(JsonSerializable.JsonString)~System.String">
+            <summary>
+            Converts the JsonValue to a string by returning the contained value.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JsonSerializable.JsonString.op_Explicit(System.String)~JsonSerializable.JsonString">
+            <summary>
+            Converts the string to a JsonValue by creating a new JsonValue and setting its value to the string.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JsonSerializable.JsonString.LoadFromJson(JsonSerializable.JsonData)">
+            <inheritdoc/>
+            <exception cref="T:System.InvalidCastException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonString.ParseNull(JsonSerializable.JsonReader)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonString.ParseUnicode(JsonSerializable.JsonReader,System.Char@)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonString.ParseEscape(JsonSerializable.JsonReader,System.Char@)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonString.Parse(JsonSerializable.JsonReader)">
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonString.Serialize(JsonSerializable.JsonWriter,System.Int32)">
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonString.Serialize(JsonSerializable.JsonWriter,System.String)">
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="T:JsonSerializable.JsonValue`1">
+            <summary>
+            Used as a parent class for basic JSON types such as bool, number, and string.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:JsonSerializable.JsonValue`1.Value">
+            <summary>
+            The value that is being held.
+            </summary>
+        </member>
+        <member name="M:JsonSerializable.JsonValue`1.#ctor">
+            <summary>
+            Default constructor as required by <see cref="T:JsonSerializable.IJsonSerializable"/> for loading from JSON.
+            </summary>
+        </member>
+        <member name="M:JsonSerializable.JsonValue`1.#ctor(`0)">
+            <summary>
+            Creates a new JsonValue and initialized the value to the given value.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:JsonSerializable.JsonValue`1.op_Implicit(JsonSerializable.JsonValue{`0})~`0">
+            <summary>
+            Implicitly converts the JsonValue to it's native type by returning the contained value.
+            </summary>
+            <param name="json"></param>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.#ctor(System.IO.Stream)">
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Close">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Flush">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Append">
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.AppendLine">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Write(System.Byte)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Write(System.SByte)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Write(System.UInt16)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Write(System.Int16)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Write(System.UInt32)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Write(System.Int32)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Write(System.UInt64)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Write(System.Int64)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Write(System.Single)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Write(System.Double)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Write(System.Decimal)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Write(System.Char)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Write(System.Boolean)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Write(System.Object)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Write(System.String)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Write(System.Char[])">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Write(System.Char,System.Int32)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Write(System.Char[],System.Int32,System.Int32)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.Write(System.String,System.Int32,System.Int32)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine(System.Byte)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine(System.SByte)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine(System.UInt16)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine(System.Int16)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine(System.UInt32)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine(System.Int32)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine(System.UInt64)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine(System.Int64)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine(System.Single)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine(System.Double)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine(System.Decimal)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine(System.Char)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine(System.Boolean)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine(System.Object)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine(System.String)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine(System.Char[])">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine(System.Char,System.Int32)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine(System.Char[],System.Int32,System.Int32)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.JsonWriter.WriteLine(System.String,System.Int32,System.Int32)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+    </members>
+</doc>
