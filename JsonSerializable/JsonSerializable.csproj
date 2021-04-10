@@ -7,6 +7,9 @@
     <Copyright>Copyright ©  2020</Copyright>
     <RepositoryUrl>https://github.com/zcarey-Utils/JsonSerializable/tree/master/JsonSerializable</RepositoryUrl>
     <PackageProjectUrl>https://github.com/zcarey-Utils/JsonSerializable/tree/master/JsonSerializable</PackageProjectUrl>
+    <AssemblyVersion>1.1.1.0</AssemblyVersion>
+    <FileVersion>1.1.1.0</FileVersion>
+    <PackageReleaseNotes>Added saving/loading from a stream.</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>
