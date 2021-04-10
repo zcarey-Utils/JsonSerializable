@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Authors>Zachary Carey</Authors>
     <Copyright>Copyright ©  2020</Copyright>
     <RepositoryUrl>https://github.com/zcarey-Utils/JsonSerializable/tree/master/JsonSerializable</RepositoryUrl>
@@ -10,6 +10,7 @@
     <AssemblyVersion>1.1.1.0</AssemblyVersion>
     <FileVersion>1.1.1.0</FileVersion>
     <PackageReleaseNotes>Added saving/loading from a stream.</PackageReleaseNotes>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
 </Project>
