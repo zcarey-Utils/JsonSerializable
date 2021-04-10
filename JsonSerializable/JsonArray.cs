@@ -7,41 +7,64 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace JsonSerializable {
+
+	/// <summary>
+	/// Essentially an array that can be saved/loaded to a JSON.
+	/// </summary>
 	public class JsonArray : JsonData, IEnumerable<JsonData> {
 
 		private List<JsonData> Values;
 
+		/// <summary>
+		/// Default constructor as required to load from a JSON.
+		/// </summary>
 		public JsonArray() {
 			Values = new List<JsonData>();
 		}
 
+		/// <summary>
+		/// Copies values from given list.
+		/// </summary>
+		/// <param name="values"></param>
 		public JsonArray(List<JsonData> values) {
 			Values = values;
 		}
 
+		/// <summary>
+		/// Copies values from given array.
+		/// </summary>
+		/// <param name="values"></param>
 		public JsonArray(JsonData[] values) {
 			Values = new List<JsonData>(values);
 		}
 
+		/// <summary>
+		/// Convert JsonArray to <see cref="List{JsonData}"/> by returning its contained list.
+		/// </summary>
+		/// <param name="data"></param>
 		public static implicit operator List<JsonData>(JsonArray data) => data.Values;
+
+		/// <summary>
+		/// Converts a <see cref="List{JsonData}"/> to JsonArray by copying the items.
+		/// </summary>
+		/// <param name="data"></param>
 		public static explicit operator JsonArray(List<JsonData> data) => new JsonArray(data);
 
-		public override bool LoadFromJson(JsonData Data) {
-			if (Data is JsonArray) {
-				Values.Clear();
-				foreach (JsonData data in (JsonArray)Data) {
-					Values.Add(data);
-				}
-				return true;
-			} else {
-				return false;
+		///<inheritdoc/>
+		///<exception cref="InvalidCastException"></exception>
+		public override void LoadFromJson(JsonData Data) {
+			Values.Clear();
+			foreach (JsonData data in (JsonArray)Data) {
+				Values.Add(data);
 			}
 		}
 
+		///<inheritdoc cref="List{T}.Add(T)"/>
 		public void Add(JsonData obj) {
 			Values.Add(obj);
 		}
 
+		///<inheritdoc cref="List{T}.GetEnumerator"/>
 		public IEnumerator<JsonData> GetEnumerator() {
 			return Values.GetEnumerator();
 		}
@@ -50,6 +73,7 @@ namespace JsonSerializable {
 			return Values.GetEnumerator();
 		}
 
+		///<inheritdoc/>
 		internal override void Serialize(JsonWriter writer, int depth) {
 			if (Values.Count > 0) {
 				writer.Write('[');
@@ -71,6 +95,9 @@ namespace JsonSerializable {
 			}
 		}
 
+		///<inheritdoc/>
+		///<exception cref="FormatException"></exception>
+		///<exception cref="IOException"></exception>
 		internal override bool Parse(JsonReader reader) {
 			Json.ReadWhitespace(reader);
 			if (reader.Read() != '[') return false;

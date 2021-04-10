@@ -6,22 +6,37 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace JsonSerializable {
+
+	/// <summary>
+	/// JsonValue for the native type <see cref="string"/>.
+	/// </summary>
 	public class JsonString : JsonValue<string> {
+
+		/// <inheritdoc/>
 		public JsonString() : base() { }
+
+		/// <inheritdoc/>
 		public JsonString(string value) : base(value) { }
 
+		/// <summary>
+		/// Converts the JsonValue to a string by returning the contained value.
+		/// </summary>
+		/// <param name="data"></param>
 		public static implicit operator string(JsonString data) => data.Value;
+
+		/// <summary>
+		/// Converts the string to a JsonValue by creating a new JsonValue and setting its value to the string.
+		/// </summary>
+		/// <param name="data"></param>
 		public static explicit operator JsonString(string data) => new JsonString(data);
 
-		public override bool LoadFromJson(JsonData Data) {
-			if (Data is JsonString) {
-				this.Value = ((JsonString)Data).Value;
-				return true;
-			} else {
-				return false;
-			}
+		/// <inheritdoc/>
+		/// <exception cref="InvalidCastException"></exception>
+		public override void LoadFromJson(JsonData Data) {
+			this.Value = ((JsonString)Data).Value;
 		}
 
+		/// <exception cref="IOException"></exception>
 		private bool ParseNull(JsonReader reader) {
 			//if(reader.Peek() == 'n' || reader.Peek() == 'N') {
 			reader.Read();
@@ -40,6 +55,7 @@ namespace JsonSerializable {
 			return false;
 		}
 
+		/// <exception cref="IOException"></exception>
 		private static bool ParseUnicode(JsonReader reader, out char c) {
 			c = ' ';
 			string str = "";
@@ -57,6 +73,7 @@ namespace JsonSerializable {
 			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		private static bool ParseEscape(JsonReader reader, out char c) {
 			int peek = reader.Read();
 
@@ -78,6 +95,8 @@ namespace JsonSerializable {
 			return true;
 		}
 
+		/// <exception cref="IOException"></exception>
+		/// <exception cref="ArgumentOutOfRangeException"></exception>
 		internal override bool Parse(JsonReader reader) {
 			StringBuilder str = new StringBuilder();
 			Json.ReadWhitespace(reader);
@@ -98,10 +117,14 @@ namespace JsonSerializable {
 			return true;
 		}
 
+		/// <exception cref="IOException"></exception>
+		/// <exception cref="ArgumentOutOfRangeException"></exception>
 		internal override void Serialize(JsonWriter writer, int depth) {
 			JsonString.Serialize(writer, Value);
 		}
 
+		/// <exception cref="IOException"></exception>
+		/// <exception cref="ArgumentOutOfRangeException"></exception>
 		internal static void Serialize(JsonWriter writer, string str) {
 			if (str == null) writer.Write("null");
 			else {

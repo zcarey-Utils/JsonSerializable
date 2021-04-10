@@ -6,17 +6,30 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace JsonSerializable {
+
+	/// <summary>
+	/// The base type of all JsonData that can be written to or read from a JSON file.
+	/// </summary>
 	public abstract class JsonData : IJsonSerializable {
 
+
+		/// <exception cref="IOException"></exception>
 		abstract internal void Serialize(JsonWriter writer, int depth);
+
+		/// <exception cref="Exception"></exception>
 		abstract internal bool Parse(JsonReader reader);
 
+		/// <inheritdoc/>
 		public JsonData SaveToJson() {
 			return this;
 		}
 
-		public abstract bool LoadFromJson(JsonData Data);
+		/// <inheritdoc/>
+		public abstract void LoadFromJson(JsonData Data);
 
+		/// <exception cref="IOException"></exception>
+		/// <exception cref="FormatException"></exception>
+		/// <exception cref="Exception"></exception>
 		internal static JsonData ParseValue(JsonReader reader) {
 			Json.ReadWhitespace(reader);
 			int peek = reader.Peek();
@@ -35,6 +48,8 @@ namespace JsonSerializable {
 			}
 		}
 
+		/// <exception cref="IOException"></exception>
+		/// /// <exception cref="FormatException"></exception>
 		private static JsonData ParseNumber(JsonReader reader) {
 			int peek;
 			char c;
@@ -48,13 +63,13 @@ namespace JsonSerializable {
 					break; //Reach the end of the number.
 				}
 			}
-
+			
 			if (long.TryParse(number, out long lg)) {
 				return new JsonInteger(lg);
 			} else if (double.TryParse(number, out double d)) {
 				return new JsonDecimal(d);
 			} else {
-				return null;
+				throw new FormatException("Unable to parse number from JSON.");
 			}
 		}
 

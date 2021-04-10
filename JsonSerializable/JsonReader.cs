@@ -12,9 +12,11 @@ namespace JsonSerializable {
 		private int buffer;
 		private int temp;
 
+		/// <exception cref="ArgumentNullException"></exception>
+		/// <exception cref="IOException"></exception>
 		internal JsonReader(Stream stream) {
 			reader = new BufferedStream(stream);
-			buffer = reader.ReadByte();
+			buffer = ReadByte();
 		}
 
 		~JsonReader() {
@@ -29,13 +31,23 @@ namespace JsonSerializable {
 			reader.Close();
 		}
 
+		/// <exception cref="IOException"></exception>
+		private int ReadByte() {
+			try {
+				return reader.ReadByte();
+			}catch(Exception e) {
+				throw new IOException("Error occured while reading from the stream.", e);
+			}
+		}
+
 		public int Peek() {
 			return buffer;
 		}
 
+		/// <exception cref="IOException"></exception>
 		public int Read() {
 			temp = buffer;
-			buffer = reader.ReadByte();
+			buffer = ReadByte();
 			return temp;
 		}
 	}

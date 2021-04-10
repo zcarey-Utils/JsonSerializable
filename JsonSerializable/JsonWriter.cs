@@ -11,6 +11,7 @@ namespace JsonSerializable {
 		private BufferedStream writer;
 		private StringBuilder str = new StringBuilder();
 
+		/// <exception cref="ArgumentNullException"></exception>
 		internal JsonWriter(Stream stream) {
 			writer = new BufferedStream(stream);
 		}
@@ -24,219 +25,429 @@ namespace JsonSerializable {
 			str.Clear();
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Close() {
-			writer.Flush();
+			Flush();
 			writer.Close();
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Flush() {
-			writer.Flush();
+			try {
+				writer.Flush();
+			}catch(Exception e) {
+				throw new IOException("Unable to flush contents.", e);
+			}
 		}
 
+		private void throwIOError(Exception e) {
+			throw new IOException("There was an error writing to the file.", e);
+		}
+
+		/// <exception cref="Exception"></exception>
 		private void Append() {
 			byte[] bytes = Encoding.ASCII.GetBytes(str.ToString());
 			writer.Write(bytes, 0, bytes.Length);
 			str.Clear();
 		}
 
+		/// <exception cref="IOException"></exception>
 		private void AppendLine() {
-			str.AppendLine();
-			Append();
+			try {
+				str.AppendLine();
+				Append();
+			}catch(Exception e) {
+				throwIOError(e);
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine() {
-			str.AppendLine();
-			Append();
+			try {
+				str.AppendLine();
+				Append();
+			}catch(Exception e) {
+				throwIOError(e);
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Write(byte value) {
-			str.Append(value);
-			Append();
+			try {
+				str.Append(value);
+				Append();
+			}catch(Exception e) {
+				throwIOError(e);
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Write(sbyte value) {
-			str.Append(value);
-			Append();
+			try {
+				str.Append(value);
+				Append();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
-		public void Write(ushort value) {
-			str.Append(value);
-			Append();
+		/// <exception cref="IOException"></exception>
+		public void Write(ushort value) {try {
+				str.Append(value);
+				Append();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Write(short value) {
-			str.Append(value);
-			Append();
+			try {
+				str.Append(value);
+				Append();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			} 
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Write(uint value) {
-			str.Append(value);
-			Append();
+			try {
+				str.Append(value);
+				Append();
+			}catch(Exception e) {
+				throwIOError(e);
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Write(int value) {
-			str.Append(value);
-			Append();
+			try {
+				str.Append(value);
+				Append();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Write(ulong value) {
-			str.Append(value);
-			Append();
+			try {
+				str.Append(value);
+				Append();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Write(long value) {
-			str.Append(value);
-			Append();
+			try {
+				str.Append(value);
+				Append();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Write(float value) {
-			str.Append(value);
-			Append();
+			try {
+				str.Append(value);
+				Append();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Write(double value) {
-			str.Append(value);
-			Append();
+			try {
+				str.Append(value);
+				Append();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Write(decimal value) {
-			str.Append(value);
-			Append();
+			try {
+				str.Append(value);
+				Append();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Write(char value) {
-			str.Append(value);
-			Append();
+			try {
+				str.Append(value);
+				Append();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Write(bool value) {
-			str.Append(value);
-			Append();
+			try {
+				str.Append(value);
+				Append();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Write(object value) {
-			str.Append(value);
-			Append();
+			try {
+				str.Append(value);
+				Append();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Write(string value) {
-			str.Append(value);
-			Append();
+			try {
+				str.Append(value);
+				Append();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Write(char[] value) {
-			str.Append(value);
-			Append();
+			try {
+				str.Append(value);
+				Append();
+			}catch(Exception e) {
+				throwIOError(e);
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Write(char value, int repeat) {
-			str.Append(value, repeat);
-			Append();
+			try {
+				str.Append(value, repeat);
+				Append();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Write(char[] value, int start, int count) {
-			str.Append(value, start, count);
-			Append();
+			try {
+				str.Append(value, start, count);
+				Append();
+			}catch(Exception e) {
+				throwIOError(e);
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void Write(string value, int start, int count) {
-			str.Append(value, start, count);
-			Append();
+			try {
+				str.Append(value, start, count);
+				Append();
+			}catch(Exception e) {
+				throwIOError(e);
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine(byte value) {
-			str.Append(value);
-			AppendLine();
+			try {
+				str.Append(value);
+				AppendLine();
+			}catch(Exception e) {
+				throwIOError(e);
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine(sbyte value) {
-			str.Append(value);
-			AppendLine();
+			try {
+				str.Append(value);
+				AppendLine();
+			}catch(Exception e) {
+				throwIOError(e);
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine(ushort value) {
-			str.Append(value);
-			AppendLine();
+			try {
+				str.Append(value);
+				AppendLine();
+			}catch(IOException e) {
+				throwIOError(e);
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine(short value) {
-			str.Append(value);
-			AppendLine();
+			try {
+				str.Append(value);
+				AppendLine();
+			}catch(Exception e) {
+				throwIOError(e);
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine(uint value) {
-			str.Append(value);
-			AppendLine();
+			try {
+				str.Append(value);
+				AppendLine();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine(int value) {
-			str.Append(value);
-			AppendLine();
+			try {
+				str.Append(value);
+				AppendLine();
+			}catch(Exception e) {
+				throwIOError(e);
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine(ulong value) {
-			str.Append(value);
-			AppendLine();
+			try {
+				str.Append(value);
+				AppendLine();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine(long value) {
-			str.Append(value);
-			AppendLine();
+			try {
+				str.Append(value);
+				AppendLine();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine(float value) {
-			str.Append(value);
-			AppendLine();
+			try {
+				str.Append(value);
+				AppendLine();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine(double value) {
-			str.Append(value);
-			AppendLine();
+			try {
+				str.Append(value);
+				AppendLine();
+			}catch(Exception e) {
+				throwIOError(e);
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine(decimal value) {
-			str.Append(value);
-			AppendLine();
+			try {
+				str.Append(value);
+				AppendLine();
+			}catch(Exception e) {
+				throwIOError(e);
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine(char value) {
-			str.Append(value);
-			AppendLine();
+			try {
+				str.Append(value);
+				AppendLine();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine(bool value) {
-			str.Append(value);
-			AppendLine();
+			try {
+				str.Append(value);
+				AppendLine();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine(object value) {
-			str.Append(value);
-			AppendLine();
+			try {
+				str.Append(value);
+				AppendLine();
+			}catch(Exception e) {
+				throwIOError(e);
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine(string value) {
-			str.Append(value);
-			AppendLine();
+			try {
+				str.Append(value);
+				AppendLine();
+			} catch (Exception e) { 
+				throwIOError(e); 
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine(char[] value) {
-			str.Append(value);
-			AppendLine();
+			try {
+				str.Append(value);
+				AppendLine();
+			}catch(Exception e) {
+				throwIOError(e);
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine(char value, int repeat) {
-			str.Append(value, repeat);
-			AppendLine();
+			try {
+				str.Append(value, repeat);
+				AppendLine();
+			}catch(Exception e) {
+				throwIOError(e);
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine(char[] value, int start, int count) {
-			str.Append(value, start, count);
-			AppendLine();
+			try {
+				str.Append(value, start, count);
+				AppendLine();
+			}catch(Exception e) {
+				throwIOError(e);
+			}
 		}
 
+		/// <exception cref="IOException"></exception>
 		public void WriteLine(string value, int start, int count) {
-			str.Append(value, start, count);
-			AppendLine();
+			try {
+				str.Append(value, start, count);
+				AppendLine();
+			}catch(Exception e) {
+				throwIOError(e);
+			}
 		}
 
 	}
