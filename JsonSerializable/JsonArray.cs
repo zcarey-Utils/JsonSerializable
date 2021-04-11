@@ -98,26 +98,26 @@ namespace JsonSerializable {
 		///<inheritdoc/>
 		///<exception cref="FormatException"></exception>
 		///<exception cref="IOException"></exception>
-		internal override bool Parse(JsonReader reader) {
+		///<exception cref="ArgumentNullException"></exception>
+		internal override void Parse(JsonReader reader) {
 			Json.ReadWhitespace(reader);
-			if (reader.Read() != '[') return false;
+			if (reader.Read() != '[') throw new FormatException("JsonArray was expecting a \'[\'.");
 
 			Json.ReadWhitespace(reader);
 			while ((reader.Peek() != ']') && (reader.Peek() != -1)) {
 				JsonData value = JsonData.ParseValue(reader);
-				if (value == null) return false;
+				if (value == null) throw new ArgumentNullException("The returned JsonData was unexpectingly null.");
 				this.Values.Add(value);
 				Json.ReadWhitespace(reader);
 				if (reader.Peek() == ',') {
 					reader.Read(); //Discard separator
 					Json.ReadWhitespace(reader);
-					if (reader.Peek() == ']' || reader.Peek() == -1) return false;
+					if (reader.Peek() == ']' || reader.Peek() == -1) throw new FormatException("JsonArray was expecting another entry, not \']\'.");
 				}
 				Json.ReadWhitespace(reader); //Prepare for next loop
 			}
 			Json.ReadWhitespace(reader);
-			if (reader.Read() != ']') return false;
-			else return true;
+			if (reader.Read() != ']') throw new FormatException("JsonArray was expecting a \']\'.");
 		}
 
 	}

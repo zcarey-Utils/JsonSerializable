@@ -95,38 +95,39 @@ namespace JsonSerializable {
 		///<exception cref="FormatException"></exception>
 		///<exception cref="ArgumentNullException"></exception>
 		///<exception cref="ArgumentException"></exception>
-		internal override bool Parse(JsonReader reader) {
+		///<exception cref="IndexOutOfRangeException"></exception>
+		///<exception cref="OverflowException"></exception>
+		internal override void Parse(JsonReader reader) {
 			Json.ReadWhitespace(reader);
-			if (reader.Read() != '{') return false;
+			if (reader.Read() != '{') throw new FormatException("JsonObject was expecting \'{\'.");
 			Json.ReadWhitespace(reader);
 
 			while ((reader.Peek() != '}') && (reader.Peek() != -1)) {
 				//Read key
 				JsonString parsedKey = new JsonString();
-				if (!parsedKey.Parse(reader)) return false;
+				parsedKey.Parse(reader);
 				string key = parsedKey.Value;
-				if (key == null) return false;
+				if (key == null) throw new FormatException("JsonObject can\'t have \'null\' as a key.");
 				Json.ReadWhitespace(reader);
-				if (reader.Read() != ':') return false;
+				if (reader.Read() != ':') throw new FormatException("JsonObject was expecting a \':\'.");
 
 				//Determine value;
 				JsonData value = JsonData.ParseValue(reader);
-				if (value == null) return false;
+				if (value == null) throw new ArgumentNullException("The parsed JsonData was unexpectedly null.");
 				else {
-					if (this.items.ContainsKey(key)) return false;
+					if (this.items.ContainsKey(key)) throw new FormatException("JsonObject can't have two entries with the same key.");
 					this.items.Add(key, value);
 				}
 				Json.ReadWhitespace(reader);
 				if (reader.Peek() == ',') {
 					reader.Read(); //We are going to look, we can ignore the comma.
 					Json.ReadWhitespace(reader);
-					if (reader.Peek() == '}' || reader.Peek() == -1) return false;
+					if (reader.Peek() == '}' || reader.Peek() == -1) throw new FormatException("JsonObject was expecting another entry, not \'}\'.");
 				}
 				Json.ReadWhitespace(reader); //Prepare for the next loop
 			}
 			Json.ReadWhitespace(reader);
-			if (reader.Read() != '}') return false;
-			return true;
+			if (reader.Read() != '}') throw new FormatException("JsonObject was expecting a \'}\'.");
 		}
 
 		///<inheritdoc/>

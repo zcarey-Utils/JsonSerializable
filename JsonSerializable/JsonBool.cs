@@ -37,19 +37,19 @@ namespace JsonSerializable {
 		}
 
 		/// <exception cref="IOException"></exception>
-		internal override bool Parse(JsonReader reader) {
+		internal override void Parse(JsonReader reader) {
 			string str = "";
 			for (int i = 0; i < "true".Length; i++) str += (char)reader.Read();
 			if (bool.TryParse(str, out bool b)) {
 				Value = b;
-				return true;
+				return;
 			} else {
 				str += (char)reader.Read();
 				if (bool.TryParse(str, out b)) {
 					Value = b;
-					return true;
+					return;
 				} else {
-					return false;
+					throw new FormatException("JsonBool was unable to parse either true or false.");
 				}
 			}
 		}

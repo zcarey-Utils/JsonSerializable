@@ -37,7 +37,8 @@ namespace JsonSerializable {
 		}
 
 		/// <exception cref="IOException"></exception>
-		private bool ParseNull(JsonReader reader) {
+		/// <exception cref="FormatException"></exception>
+		private void ParseNull(JsonReader reader) {
 			//if(reader.Peek() == 'n' || reader.Peek() == 'N') {
 			reader.Read();
 			if (reader.Peek() == 'u' || reader.Peek() == 'U') {
@@ -47,74 +48,79 @@ namespace JsonSerializable {
 					if (reader.Peek() == 'l' || reader.Peek() == 'L') {
 						reader.Read();
 						Value = null;
-						return true;
+						return;
 					}
 				}
 			}
 			//}
-			return false;
+			throw new FormatException("JsonString was expecting \'null\'.");
 		}
 
 		/// <exception cref="IOException"></exception>
-		private static bool ParseUnicode(JsonReader reader, out char c) {
+		/// <exception cref="IndexOutOfRangeException"></exception>
+		/// <exception cref="ArgumentOutOfRangeException"></exception>
+		/// <exception cref="FormatException"></exception>
+		/// <exception cref="OverflowException"></exception>
+		private static void ParseUnicode(JsonReader reader, out char c) {
 			c = ' ';
 			string str = "";
 			for (int i = 0; i < 4; i++) {
-				if (reader.Peek() == -1) return false;
+				if (reader.Peek() == -1) throw new IndexOutOfRangeException("JsonString was expecting a unicode id, but end of file was reached.");
 				else str += (char)reader.Read();
 			}
-			int uni = -1;
-			try {
-				uni = Convert.ToInt32(str, 16);
-				c = (char)uni;
-				return true;
-			} catch (Exception) {
-				return false;
-			}
+			int uni = Convert.ToInt32(str, 16);
+			c = (char)uni;
 		}
 
 		/// <exception cref="IOException"></exception>
-		private static bool ParseEscape(JsonReader reader, out char c) {
+		/// <exception cref="IndexOutOfRangeException"></exception>
+		/// <exception cref="FormatException"></exception>
+		/// <exception cref="ArgumentOutOfRangeException"></exception>
+		/// <exception cref="OverflowException"></exception>
+		private static void ParseEscape(JsonReader reader, out char c) {
 			int peek = reader.Read();
 
 			if (peek == -1) {
 				c = ' ';
-				return false;
+				throw new IndexOutOfRangeException("Expected JsonString escape character, but end of file was reached.");
 			} else if (peek == '\"' || peek == '\\' || peek == '/') c = (char)peek;
 			else if (peek == 'b') c = '\b';
 			else if (peek == 'f') c = '\f';
 			else if (peek == 'n') c = '\n';
 			else if (peek == 'r') c = '\r';
 			else if (peek == 't') c = '\t';
-			else if (peek == 'u') return ParseUnicode(reader, out c);
+			else if (peek == 'u') ParseUnicode(reader, out c);
 			else {
 				c = ' ';
-				return false;
+				throw new FormatException("Jsonstring found an unknown escape character \'" + c + "\'");
 			}
-
-			return true;
 		}
 
 		/// <exception cref="IOException"></exception>
 		/// <exception cref="ArgumentOutOfRangeException"></exception>
-		internal override bool Parse(JsonReader reader) {
+		/// <exception cref="IndexOutOfRangeException"></exception>
+		/// <exception cref="FormatException"></exception>
+		/// <exception cref="OverflowException"></exception>
+		internal override void Parse(JsonReader reader) {
 			StringBuilder str = new StringBuilder();
 			Json.ReadWhitespace(reader);
-			if (reader.Peek() == 'n' || reader.Peek() == 'N') return ParseNull(reader);
-			if (reader.Read() != '\"') return false;
-			int peek;
-			char c;
-			while ((peek = reader.Read()) != '\"') {
-				if (peek == -1) return false;
-				c = (char)peek;
+			if (reader.Peek() == 'n' || reader.Peek() == 'N') {
+				ParseNull(reader);
+			} else {
+				if (reader.Read() != '\"') throw new FormatException("JsonStrings must start with a \".");
+				int peek;
+				char c;
+				while ((peek = reader.Read()) != '\"') {
+					if (peek == -1) throw new IndexOutOfRangeException("The end of file was reached, but the end of the JsonString was never found.");
+					c = (char)peek;
 
-				if (c == '\\') {
-					if (!ParseEscape(reader, out c)) return false;
+					if (c == '\\') {
+						ParseEscape(reader, out c);
+					}
+					str.Append(c);
 				}
-				str.Append(c);
+				Value = str.ToString();
 			}
-			Value = str.ToString();
-			return true;
 		}
 
 		/// <exception cref="IOException"></exception>

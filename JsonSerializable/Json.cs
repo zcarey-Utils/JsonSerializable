@@ -16,7 +16,7 @@ namespace JsonSerializable {
 		/// Serializes and writes JSON data to a file.
 		/// </summary>
 		/// <param name="json">The JSON data to serialize and write to a file.</param>
-		/// <param name="path">The file path to write to.</param>
+		/// <param name="filePath">The file path to write to.</param>
 		/// <exception cref="System.Runtime.Serialization.SerializationException">Thrown when serializing the data into JsonData fails.</exception>
 		/// <exception cref="ArgumentNullException">Thrown when <paramref name="json"/> is null.</exception>
 		/// <exception cref="IOException"></exception>
@@ -28,7 +28,7 @@ namespace JsonSerializable {
 			}catch(Exception e) {
 				throw new System.Runtime.Serialization.SerializationException("An error occured when trying to serialize the data.", e);
 			}
-			Write(json.SaveToJson(), filePath);
+			Write(data, filePath);
 		}
 
 		/// <summary>
@@ -81,7 +81,7 @@ namespace JsonSerializable {
 		/// <summary>
 		/// Reads JSON from a file and deserializes the data.
 		/// </summary>
-		/// <param name="path"></param>
+		/// <param name="filePath"></param>
 		/// <param name="json"></param>
 		/// <exception cref="System.Runtime.Serialization.SerializationException"></exception>
 		/// <exception cref="IOException"></exception>

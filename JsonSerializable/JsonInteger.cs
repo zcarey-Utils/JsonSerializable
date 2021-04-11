@@ -43,7 +43,7 @@ namespace JsonSerializable {
 		}
 
 		/// <exception cref="InvalidOperationException"></exception>
-		internal override bool Parse(JsonReader reader) {
+		internal override void Parse(JsonReader reader) {
 			//Should be getting parsed in a parent class.
 			throw new InvalidOperationException();
 		}

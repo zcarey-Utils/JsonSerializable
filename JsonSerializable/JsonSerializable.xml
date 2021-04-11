@@ -80,7 +80,7 @@
             Serializes and writes JSON data to a file.
             </summary>
             <param name="json">The JSON data to serialize and write to a file.</param>
-            <param name="path">The file path to write to.</param>
+            <param name="filePath">The file path to write to.</param>
             <exception cref="T:System.Runtime.Serialization.SerializationException">Thrown when serializing the data into JsonData fails.</exception>
             <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="json"/> is null.</exception>
             <exception cref="T:System.IO.IOException"></exception>
@@ -107,7 +107,7 @@
             <summary>
             Reads JSON from a file and deserializes the data.
             </summary>
-            <param name="path"></param>
+            <param name="filePath"></param>
             <param name="json"></param>
             <exception cref="T:System.Runtime.Serialization.SerializationException"></exception>
             <exception cref="T:System.IO.IOException"></exception>
@@ -185,6 +185,7 @@
             <inheritdoc/>
             <exception cref="T:System.FormatException"></exception>
             <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="T:JsonSerializable.JsonBool">
             <summary>
@@ -395,6 +396,8 @@
             <exception cref="T:System.FormatException"></exception>
             <exception cref="T:System.ArgumentNullException"></exception>
             <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.IndexOutOfRangeException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
         </member>
         <member name="M:JsonSerializable.JsonObject.LoadFromJson(JsonSerializable.JsonData)">
             <inheritdoc/>
@@ -441,16 +444,28 @@
         </member>
         <member name="M:JsonSerializable.JsonString.ParseNull(JsonSerializable.JsonReader)">
             <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.FormatException"></exception>
         </member>
         <member name="M:JsonSerializable.JsonString.ParseUnicode(JsonSerializable.JsonReader,System.Char@)">
             <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.IndexOutOfRangeException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
         </member>
         <member name="M:JsonSerializable.JsonString.ParseEscape(JsonSerializable.JsonReader,System.Char@)">
             <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.IndexOutOfRangeException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
         </member>
         <member name="M:JsonSerializable.JsonString.Parse(JsonSerializable.JsonReader)">
             <exception cref="T:System.IO.IOException"></exception>
             <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <exception cref="T:System.IndexOutOfRangeException"></exception>
+            <exception cref="T:System.FormatException"></exception>
+            <exception cref="T:System.OverflowException"></exception>
         </member>
         <member name="M:JsonSerializable.JsonString.Serialize(JsonSerializable.JsonWriter,System.Int32)">
             <exception cref="T:System.IO.IOException"></exception>

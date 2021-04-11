@@ -17,7 +17,7 @@ namespace JsonSerializable {
 		abstract internal void Serialize(JsonWriter writer, int depth);
 
 		/// <exception cref="Exception"></exception>
-		abstract internal bool Parse(JsonReader reader);
+		abstract internal void Parse(JsonReader reader);
 
 		/// <inheritdoc/>
 		public JsonData SaveToJson() {
@@ -44,7 +44,8 @@ namespace JsonSerializable {
 				else {
 					return ParseNumber(reader);
 				}
-				return data.Parse(reader) ? data : null;
+				data.Parse(reader);
+				return data;
 			}
 		}
 
