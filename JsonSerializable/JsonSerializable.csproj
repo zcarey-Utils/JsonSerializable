@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Version>1.1.3</Version>
+    <Version>1.1.4</Version>
     <Authors>Zachary Carey</Authors>
     <Copyright>Copyright ©  2020</Copyright>
     <RepositoryUrl>https://github.com/zcarey-Utils/JsonSerializable/tree/master/JsonSerializable</RepositoryUrl>
     <PackageProjectUrl>https://github.com/zcarey-Utils/JsonSerializable/tree/master/JsonSerializable</PackageProjectUrl>
-    <AssemblyVersion>1.1.3.0</AssemblyVersion>
-    <FileVersion>1.1.3.0</FileVersion>
+    <AssemblyVersion>1.1.4.0</AssemblyVersion>
+    <FileVersion>1.1.4.0</FileVersion>
     <PackageReleaseNotes>Fixed some exception that should have been thrown instead of returning null.</PackageReleaseNotes>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>

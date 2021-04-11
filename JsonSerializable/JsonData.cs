@@ -33,7 +33,7 @@ namespace JsonSerializable {
 		internal static JsonData ParseValue(JsonReader reader) {
 			Json.ReadWhitespace(reader);
 			int peek = reader.Peek();
-			if (peek == -1) return null;
+			if (peek == -1) throw new IndexOutOfRangeException("End of file was reached before JsonData could be parsed.");
 			else {
 				JsonData data;
 				char c = (char)peek;
