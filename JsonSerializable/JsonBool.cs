@@ -56,7 +56,7 @@ namespace JsonSerializable {
 
 		/// <exception cref="IOException"></exception>
 		internal override void Serialize(JsonWriter writer, int depth) {
-			writer.Write(Value);
+			writer.Write(Value ? "true" : "false");
 		}
 	}
 }
