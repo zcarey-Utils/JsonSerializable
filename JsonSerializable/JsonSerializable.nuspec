@@ -8,7 +8,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <description>$description$</description>
-    <releaseNotes>Added saving/loading from a stream.</releaseNotes>
+    <releaseNotes>Updated to .NET Core and now use an error approached reading/writing.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>JSON Serialize</tags>
   </metadata>
