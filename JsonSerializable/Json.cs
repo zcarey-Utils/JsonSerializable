@@ -54,13 +54,20 @@ namespace JsonSerializable {
 		/// <exception cref="IOException">Any error occurs while trying to write the file to the disk.</exception>
 		private static void Write(JsonData json, string path) {
 			if (json == null) throw new ArgumentNullException("json");
-			Stream fileStream = null;
+			Exception ex = null;
 			try {
-				fileStream = File.OpenWrite(path);
-			}catch(Exception e) {
+				using (Stream fileStream = File.OpenWrite(path)) {
+					try {
+						Write(json, fileStream);
+					}catch(Exception e) {
+						ex = e; //Save so we can throw it again later
+					}
+				}
+			} catch (Exception e) {
 				throw new IOException("Unable to open file.", e);
 			}
-			Write(json, fileStream);
+
+			if (ex != null) throw ex;
 		}
 
 		/// <exception cref="ArgumentNullException"></exception>
@@ -69,10 +76,9 @@ namespace JsonSerializable {
 			if (json == null) throw new ArgumentNullException("json");
 			if (stream == null) throw new ArgumentNullException("stream");
 			try {
-				using (JsonWriter writer = new JsonWriter(stream)) {
-					json.Serialize(writer, 0);
-					writer.Flush();
-				}
+				JsonWriter writer = new JsonWriter(stream);
+				json.Serialize(writer, 0);
+				writer.Flush();
 			} catch (Exception e) {
 				throw new IOException("An error occured while writing the JSON file.", e);
 			}
@@ -115,13 +121,20 @@ namespace JsonSerializable {
 		/// <exception cref="ArgumentNullException"></exception>
 		/// <exception cref="IOException"></exception>
 		private static JsonData Read(string filePath) {
-			Stream fileStream = null;
+			Exception ex = null;
 			try {
-				fileStream = File.OpenRead(filePath);
+				using (Stream fileStream = File.OpenRead(filePath)) {
+					try {
+						return Read(fileStream);
+					}catch(Exception e) {
+						ex = e; //Save so we can throw later
+					}
+				}
 			}catch(Exception e) {
 				throw new IOException("Unable to open file.", e);
 			}
-			return Read(fileStream);
+
+			throw ex ?? new Exception("An unknown exception occured.");
 		}
 
 		/// <exception cref="ArgumentNullException"></exception>
@@ -129,11 +142,10 @@ namespace JsonSerializable {
 		private static JsonData Read(Stream stream) {
 			if (stream == null) throw new ArgumentNullException("stream", "Stream can't be null.");
 			try {
-				using (JsonReader reader = new JsonReader(stream)) {
-					JsonData data = JsonData.ParseValue(reader);
-					if (reader.Read() != -1) return null;
-					else return data;
-				}
+				JsonReader reader = new JsonReader(stream);
+				JsonData data = JsonData.ParseValue(reader);
+				if (reader.Read() != -1) return null;
+				else return data;
 			} catch (Exception e) {
 				throw new IOException("An error occured while reading the JSON file.", e);
 			}
