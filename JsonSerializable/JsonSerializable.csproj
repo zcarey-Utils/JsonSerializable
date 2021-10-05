@@ -1,20 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Version>1.1.6</Version>
+    <TargetFramework>netstandard2.1</TargetFramework>
+	<Version>1.1.7</Version>
     <Authors>Zachary Carey</Authors>
     <Copyright>Copyright ©  2020</Copyright>
     <RepositoryUrl>https://github.com/zcarey-Utils/JsonSerializable/tree/master/JsonSerializable</RepositoryUrl>
     <PackageProjectUrl>https://github.com/zcarey-Utils/JsonSerializable/tree/master/JsonSerializable</PackageProjectUrl>
-    <AssemblyVersion>1.1.6.0</AssemblyVersion>
-    <FileVersion>1.1.6.0</FileVersion>
+    <AssemblyVersion>1.1.7.0</AssemblyVersion>
+    <FileVersion>1.1.7.0</FileVersion>
     <PackageReleaseNotes>Writing/Reading with a stream no longer closes the stream.</PackageReleaseNotes>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
-
+  
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\Users\zachc\source\repos\zcarey-Utils\JsonSerializable\JsonSerializable\JsonSerializable.xml</DocumentationFile>
+    <DocumentationFile>JsonSerializable.xml</DocumentationFile>
   </PropertyGroup>
 
 </Project>
