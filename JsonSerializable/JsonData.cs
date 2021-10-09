@@ -14,7 +14,7 @@ namespace JsonSerializable {
 
 
 		/// <exception cref="IOException"></exception>
-		abstract internal void Serialize(JsonWriter writer, int depth);
+		abstract internal void Serialize(JsonWriter writer, int depth, bool minimal);
 
 		/// <exception cref="Exception"></exception>
 		abstract internal void Parse(JsonReader reader);

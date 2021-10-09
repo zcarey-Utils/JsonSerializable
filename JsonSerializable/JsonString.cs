@@ -125,7 +125,7 @@ namespace JsonSerializable {
 
 		/// <exception cref="IOException"></exception>
 		/// <exception cref="ArgumentOutOfRangeException"></exception>
-		internal override void Serialize(JsonWriter writer, int depth) {
+		internal override void Serialize(JsonWriter writer, int depth, bool minimal) {
 			JsonString.Serialize(writer, Value);
 		}
 
@@ -136,11 +136,19 @@ namespace JsonSerializable {
 			else {
 				writer.Write('\"');
 				foreach (char c in str) {
-					if ((c == '\"') || (c == '\\') || (c == '/')
-						|| (c == '\b') || (c == '\f') || (c == '\n')
-						|| (c == '\t')) {
+					if ((c == '\"') || (c == '\\') || (c == '/')) {
 						writer.Write('\\');
 						writer.Write(c);
+					} else if (c == '\b') {
+						writer.Write("\\b");
+					} else if(c == '\f') {
+						writer.Write("\\f");
+					} else if(c == 'n') {
+						writer.Write("\\n");
+					} else if(c == 'r') {
+						writer.Write("\\r");
+					} else if(c == 't') {
+						writer.Write("\\t");
 					} else if (c > byte.MaxValue) {
 						if (c <= 0xFFFF) {
 							writer.Write('\\');

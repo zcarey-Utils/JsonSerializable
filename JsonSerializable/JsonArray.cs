@@ -74,7 +74,7 @@ namespace JsonSerializable {
 		}
 
 		///<inheritdoc/>
-		internal override void Serialize(JsonWriter writer, int depth) {
+		internal override void Serialize(JsonWriter writer, int depth, bool minimal) {
 			if (Values.Count > 0) {
 				writer.Write('[');
 				depth++;
@@ -82,16 +82,22 @@ namespace JsonSerializable {
 				foreach (JsonData obj in Values) {
 					if (!isFirst) writer.Write(',');
 					else isFirst = false;
-					writer.WriteLine();
-					writer.Write('\t', depth);
-					obj.Serialize(writer, depth);
+
+					if (!minimal) {
+						writer.WriteLine();
+						writer.Write('\t', depth);
+					}
+					obj.Serialize(writer, depth, minimal);
 				}
 				depth--;
-				writer.WriteLine();
-				writer.Write('\t', depth);
+				if (!minimal) {
+					writer.WriteLine();
+					writer.Write('\t', depth);
+				}
 				writer.Write(']');
 			} else {
-				writer.Write("[ ]");
+				if (minimal) writer.Write("[]");
+				else writer.Write("[ ]");
 			}
 		}
 

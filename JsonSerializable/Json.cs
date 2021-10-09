@@ -20,7 +20,7 @@ namespace JsonSerializable {
 		/// <exception cref="System.Runtime.Serialization.SerializationException">Thrown when serializing the data into JsonData fails.</exception>
 		/// <exception cref="ArgumentNullException">Thrown when <paramref name="json"/> is null.</exception>
 		/// <exception cref="IOException"></exception>
-		public static void Write(IJsonSerializable json, string filePath) {
+		public static void Write(IJsonSerializable json, string filePath, bool minimal = false) {
 			if (json == null) throw new ArgumentNullException("json", "Unable to serialize null.");
 			JsonData data = null;
 			try {
@@ -28,7 +28,7 @@ namespace JsonSerializable {
 			}catch(Exception e) {
 				throw new System.Runtime.Serialization.SerializationException("An error occured when trying to serialize the data.", e);
 			}
-			Write(data, filePath);
+			Write(data, filePath, minimal);
 		}
 
 		/// <summary>
@@ -39,7 +39,7 @@ namespace JsonSerializable {
 		/// <exception cref="ArgumentNullException">Thrown when <paramref name="json"/> is null.</exception>
 		/// <exception cref="System.Runtime.Serialization.SerializationException">Thrown when serializing the data into JsonData fails.</exception>
 		/// <exception cref="IOException"></exception>
-		public static void Write(IJsonSerializable json, Stream stream) {
+		public static void Write(IJsonSerializable json, Stream stream, bool minimal = false) {
 			if (json == null) throw new ArgumentNullException("json", "Unable to serialize null.");
 			JsonData data = null;
 			try {
@@ -47,18 +47,18 @@ namespace JsonSerializable {
 			} catch (Exception e) {
 				throw new System.Runtime.Serialization.SerializationException("An error occured when trying to serialize the data.", e);
 			}
-			Write(data, stream);
+			Write(data, stream, minimal);
 		}
 		
 		/// <exception cref="ArgumentNullException"></exception>
 		/// <exception cref="IOException">Any error occurs while trying to write the file to the disk.</exception>
-		private static void Write(JsonData json, string path) {
+		private static void Write(JsonData json, string path, bool minimal) {
 			if (json == null) throw new ArgumentNullException("json");
 			Exception ex = null;
 			try {
 				using (Stream fileStream = File.OpenWrite(path)) {
 					try {
-						Write(json, fileStream);
+						Write(json, fileStream, minimal);
 					}catch(Exception e) {
 						ex = e; //Save so we can throw it again later
 					}
@@ -72,12 +72,12 @@ namespace JsonSerializable {
 
 		/// <exception cref="ArgumentNullException"></exception>
 		/// <exception cref="IOException"></exception>
-		private static void Write(JsonData json, Stream stream) {
+		private static void Write(JsonData json, Stream stream, bool minimal) {
 			if (json == null) throw new ArgumentNullException("json");
 			if (stream == null) throw new ArgumentNullException("stream");
 			try {
 				JsonWriter writer = new JsonWriter(stream);
-				json.Serialize(writer, 0);
+				json.Serialize(writer, 0, minimal);
 				writer.Flush();
 			} catch (Exception e) {
 				throw new IOException("An error occured while writing the JSON file.", e);
