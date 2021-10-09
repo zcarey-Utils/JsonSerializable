@@ -143,11 +143,11 @@ namespace JsonSerializable {
 						writer.Write("\\b");
 					} else if(c == '\f') {
 						writer.Write("\\f");
-					} else if(c == 'n') {
+					} else if(c == '\n') {
 						writer.Write("\\n");
-					} else if(c == 'r') {
+					} else if(c == '\r') {
 						writer.Write("\\r");
-					} else if(c == 't') {
+					} else if(c == '\t') {
 						writer.Write("\\t");
 					} else if (c > byte.MaxValue) {
 						if (c <= 0xFFFF) {
