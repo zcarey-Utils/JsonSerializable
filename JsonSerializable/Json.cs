@@ -30,6 +30,7 @@ namespace JsonSerializable {
 			}
 			using (MemoryStream stream = new MemoryStream()) {
 				Write(data, stream, minimal);
+				stream.Position = 0;
 				using (StreamReader reader = new StreamReader(stream)) {
 					return reader.ReadToEnd();
 				}
@@ -119,6 +120,7 @@ namespace JsonSerializable {
 		public static void FromString(string data, IJsonSerializable json) {
 			JsonData parsedData = null;
 			using(MemoryStream stream = new MemoryStream(Encoding.ASCII.GetBytes(data))) {
+				stream.Position = 0;
 				parsedData = Read(stream);
 			}
 
