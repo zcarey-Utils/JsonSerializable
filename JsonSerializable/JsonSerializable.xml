@@ -75,6 +75,16 @@
             Handles the reading and writing of JSON files.
             </summary>
         </member>
+        <member name="M:JsonSerializable.Json.GetString(JsonSerializable.IJsonSerializable,System.Boolean)">
+            <summary>
+            Serializes and writes JSON data to a string.
+            </summary>
+            <param name="json">The JSON data to serialize and write to a string.</param>
+            <param name="minimal"></param>
+            <exception cref="T:System.Runtime.Serialization.SerializationException">Thrown when serializing the data into JsonData fails.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="json"/> is null.</exception>
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
         <member name="M:JsonSerializable.Json.Write(JsonSerializable.IJsonSerializable,System.String,System.Boolean)">
             <summary>
             Serializes and writes JSON data to a file.
@@ -102,6 +112,16 @@
         <member name="M:JsonSerializable.Json.Write(JsonSerializable.JsonData,System.IO.Stream,System.Boolean)">
             <exception cref="T:System.ArgumentNullException"></exception>
             <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:JsonSerializable.Json.FromString(System.String,JsonSerializable.IJsonSerializable)">
+            <summary>
+            Reads JSON from a string and deserializes the data
+            </summary>
+            <param name="data"></param>
+            <param name="json"></param>
+            <exception cref="T:System.Runtime.Serialization.SerializationException"></exception>
+            <exception cref="T:System.IO.IOException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="M:JsonSerializable.Json.Read(System.String,JsonSerializable.IJsonSerializable)">
             <summary>

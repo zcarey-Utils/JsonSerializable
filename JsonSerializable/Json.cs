@@ -13,6 +13,30 @@ namespace JsonSerializable {
 	public static class Json {
 
 		/// <summary>
+		/// Serializes and writes JSON data to a string.
+		/// </summary>
+		/// <param name="json">The JSON data to serialize and write to a string.</param>
+		/// <param name="minimal"></param>
+		/// <exception cref="System.Runtime.Serialization.SerializationException">Thrown when serializing the data into JsonData fails.</exception>
+		/// <exception cref="ArgumentNullException">Thrown when <paramref name="json"/> is null.</exception>
+		/// <exception cref="IOException"></exception>
+		public static string GetString(IJsonSerializable json, bool minimal = false) {
+			if (json == null) throw new ArgumentNullException("json", "Unable to serialize null.");
+			JsonData data = null;
+			try {
+				data = json.SaveToJson();
+			}catch(Exception e) {
+				throw new System.Runtime.Serialization.SerializationException("An error occured when trying to serialize the data.", e);
+			}
+			using (MemoryStream stream = new MemoryStream()) {
+				Write(data, stream, minimal);
+				using (StreamReader reader = new StreamReader(stream)) {
+					return reader.ReadToEnd();
+				}
+			}
+		}
+
+		/// <summary>
 		/// Serializes and writes JSON data to a file.
 		/// </summary>
 		/// <param name="json">The JSON data to serialize and write to a file.</param>
@@ -81,6 +105,31 @@ namespace JsonSerializable {
 				writer.Flush();
 			} catch (Exception e) {
 				throw new IOException("An error occured while writing the JSON file.", e);
+			}
+		}
+
+		/// <summary>
+		/// Reads JSON from a string and deserializes the data
+		/// </summary>
+		/// <param name="data"></param>
+		/// <param name="json"></param>
+		/// <exception cref="System.Runtime.Serialization.SerializationException"></exception>
+		/// <exception cref="IOException"></exception>
+		/// <exception cref="ArgumentNullException"></exception>
+		public static void FromString(string data, IJsonSerializable json) {
+			JsonData parsedData = null;
+			using(MemoryStream stream = new MemoryStream(Encoding.ASCII.GetBytes(data))) {
+				parsedData = Read(stream);
+			}
+
+			if(parsedData == null) {
+				throw new System.Runtime.Serialization.SerializationException("An error occured while reading string: null was returned.");
+			}
+
+			try {
+				json.LoadFromJson(parsedData);
+			}catch(Exception e) {
+				throw new System.Runtime.Serialization.SerializationException("An error occured while trying to deserialize the data.", e);
 			}
 		}
 		
