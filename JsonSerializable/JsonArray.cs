@@ -27,14 +27,22 @@ namespace JsonSerializable {
 		/// </summary>
 		/// <param name="values"></param>
 		public JsonArray(List<JsonData> values) {
-			Values = values;
+			Values = new List<JsonData>(values);
 		}
 
-		/// <summary>
-		/// Copies values from given array.
-		/// </summary>
-		/// <param name="values"></param>
-		public JsonArray(JsonData[] values) {
+        /// <summary>
+        /// Copies values from given enumerable.
+        /// </summary>
+        /// <param name="values"></param>
+        public JsonArray(IEnumerable<JsonData> values) {
+            Values = values.ToList();
+        }
+
+        /// <summary>
+        /// Copies values from given array.
+        /// </summary>
+        /// <param name="values"></param>
+        public JsonArray(JsonData[] values) {
 			Values = new List<JsonData>(values);
 		}
 

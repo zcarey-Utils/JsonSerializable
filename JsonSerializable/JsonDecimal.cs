@@ -50,7 +50,13 @@ namespace JsonSerializable {
 
 		/// <exception cref="IOException"></exception>
 		internal override void Serialize(JsonWriter writer, int depth, bool minimal) {
-			writer.Write(Value);
+			// Make sure to always include the decimal so it doesn't get parsed as an integer on load
+			string str = Value.ToString();
+			if (str.LastIndexOf('.') < 0)
+			{
+				str += ".0";
+			}
+			writer.Write(str);
 		}
 	}
 }

@@ -170,6 +170,12 @@
             </summary>
             <param name="values"></param>
         </member>
+        <member name="M:JsonSerializable.JsonArray.#ctor(System.Collections.Generic.IEnumerable{JsonSerializable.JsonData})">
+            <summary>
+            Copies values from given enumerable.
+            </summary>
+            <param name="values"></param>
+        </member>
         <member name="M:JsonSerializable.JsonArray.#ctor(JsonSerializable.JsonData[])">
             <summary>
             Copies values from given array.
