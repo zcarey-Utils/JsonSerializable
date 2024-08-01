@@ -77,7 +77,7 @@ namespace JsonSerializable {
 		
 		/// <exception cref="ArgumentNullException"></exception>
 		/// <exception cref="IOException">Any error occurs while trying to write the file to the disk.</exception>
-		private static void Write(JsonData json, string path, bool minimal) {
+		public static void Write(JsonData json, string path, bool minimal = false) {
 			if (json == null) throw new ArgumentNullException("json");
 			Exception ex = null;
 			try {
@@ -97,7 +97,7 @@ namespace JsonSerializable {
 
 		/// <exception cref="ArgumentNullException"></exception>
 		/// <exception cref="IOException"></exception>
-		private static void Write(JsonData json, Stream stream, bool minimal) {
+		public static void Write(JsonData json, Stream stream, bool minimal = false) {
 			if (json == null) throw new ArgumentNullException("json");
 			if (stream == null) throw new ArgumentNullException("stream");
 			try {
@@ -171,7 +171,7 @@ namespace JsonSerializable {
 
 		/// <exception cref="ArgumentNullException"></exception>
 		/// <exception cref="IOException"></exception>
-		private static JsonData Read(string filePath) {
+		public static JsonData Read(string filePath) {
 			Exception ex = null;
 			try {
 				using (Stream fileStream = File.OpenRead(filePath)) {
@@ -190,7 +190,7 @@ namespace JsonSerializable {
 
 		/// <exception cref="ArgumentNullException"></exception>
 		/// <exception cref="IOException"></exception>
-		private static JsonData Read(Stream stream) {
+		public static JsonData Read(Stream stream) {
 			if (stream == null) throw new ArgumentNullException("stream", "Stream can't be null.");
 			try {
 				JsonReader reader = new JsonReader(stream);
